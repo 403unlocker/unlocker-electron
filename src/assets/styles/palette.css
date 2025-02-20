@@ -1,0 +1,29 @@
+
+@media (prefers-color-scheme: light) {
+  @theme {
+    --font-body: Vazirmatn, var(--font-sans);
+    --color-bg: #f8f9fa;
+    --color-bg-light: #ffffff;
+    --color-primary: #0dbd5c;
+    --color-success: #76be56;
+
+    --color-typo-0: #212529;
+    --color-typo-1: #48484A;
+    --color-typo-2: #495057;
+    --color-typo-primary: #FFFFFF;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  @theme {
+    --color-bg: #0b0b0b;
+    --color-bg-light: #1c1c1e;
+    --color-primary: #0dbd5c;
+    --color-success: #76be56;
+
+    --color-typo-0: #FFFFFF;
+    --color-typo-1: #48484A;
+    --color-typo-2: #636363;
+    --color-typo-primary: #FFFFFF;
+  }
+}

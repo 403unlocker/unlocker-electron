@@ -1,7 +1,8 @@
 @import "tailwindcss";
+@import "./font.css";
+@import "./palette.css";
 
-@layer base {
-  html, body {
-    background-color: #0b0b0b;
-  }
+.body,
+html {
+  @apply bg-bg;
 }

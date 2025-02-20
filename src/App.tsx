@@ -1,5 +1,5 @@
 function App() {
-  return <div></div>;
+  return <div className="font-body"></div>;
 }
 
 export default App;
