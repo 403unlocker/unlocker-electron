@@ -2,7 +2,18 @@
 @import "./font.css";
 @import "./palette.css";
 
-.body,
 html {
-  @apply bg-bg;
+  background: url("../images/world-map-light.png") no-repeat center fixed;
+  @apply bg-paper;
+}
+
+*:focus-visible {
+  @apply outline-typo-0 outline-1;
+}
+
+@media (prefers-color-scheme: dark) {
+  html {
+    background: url("../images/world-map-dark.png") no-repeat center fixed;
+    @apply bg-paper;
+  }
 }
