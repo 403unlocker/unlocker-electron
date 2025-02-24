@@ -23,9 +23,10 @@ function LinkInput(props: Props) {
           <RiLink size={16} className="absolute right-3.5 top-[13px] text-typo-1" />
           <input
             value={inputValue}
-            placeholder="آدرس سایت..."
+            placeholder="... آدرس سایت"
             onChange={(event) => setInputValue(event.target.value)}
-            className="bg-paper-light h-[42px] rounded-[10px] placeholder:text-typo-1 text-sm w-full outline-transparent min-w-0 border border-solid border-icon-border pr-10 pl-2.5 transition-all"
+            className="bg-paper-light h-[42px] rounded-[10px] placeholder:text-typo-1 text-sm w-full outline-transparent min-w-0 border border-solid border-icon-border pr-10 pl-2.5 transition-all placeholder:text-right"
+            dir="ltr"
           />
         </div>
 
