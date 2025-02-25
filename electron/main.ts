@@ -24,10 +24,11 @@ function createWindow() {
     width: 800,
     height: 600,
     resizable: false,
-    autoHideMenuBar: true,
     icon: path.join(process.env.VITE_PUBLIC, "electron-vite.svg"),
     webPreferences: { preload: path.join(__dirname, "preload.mjs") },
   });
+
+  win.setMenu(null);
 
   if (VITE_DEV_SERVER_URL) win.loadURL(VITE_DEV_SERVER_URL);
   else win.loadFile(path.join(RENDERER_DIST, "index.html"));
