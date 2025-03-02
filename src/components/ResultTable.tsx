@@ -1,7 +1,8 @@
-import { useMemo } from "react";
-import { AiFillThunderbolt } from "react-icons/ai";
-import { RiCloudOffLine } from "react-icons/ri";
 import { z } from "zod";
+import { useMemo } from "react";
+import { twJoin } from "tailwind-merge";
+import { RiCloudOffLine } from "react-icons/ri";
+import { AiFillThunderbolt } from "react-icons/ai";
 
 type Props = {
   link: string;
@@ -37,22 +38,36 @@ function ResultTable(props: Props) {
       </p>
       <table className="w-full">
         <thead>
-          <tr className="text-sm text-typo-2">
-            <th className="text-right font-normal">#</th>
-            <th className="text-right font-normal">نام</th>
-            <th className="text-right font-normal">DNS</th>
-            <th className="text-right font-normal">سرعت</th>
-            <th className="text-right font-normal">وضعیت</th>
+          <tr
+            className={twJoin(
+              "text-sm text-typo-2 [&>th]:py-3 [&>th]:text-right",
+              "[&>th]:font-normal [&>th]:border-b [&>th]:border-solid",
+              "[&>th]:border-[#232323] [&>th]:first:pb-2",
+            )}
+          >
+            <th>#</th>
+            <th>نام</th>
+            <th>دی‌ان‌اس</th>
+            <th>سرعت</th>
+            <th>وضعیت</th>
           </tr>
         </thead>
         <tbody>
-          <tr className="text-typo-0 text-sm">
-            <td className="py-3">1</td>
-            <td className="py-3">شکن</td>
-            <td className="py-3">178.22.122.100</td>
-            <td className="py-3">25MB/s</td>
-            <td className="text-success py-3">آنلاین</td>
-          </tr>
+          {new Array(20).fill(null).map((_, index) => (
+            <tr
+              key={index}
+              className={twJoin(
+                "text-typo-0 text-sm [&>td]:py-3 [&>td]:border-b",
+                "[&>td]:border-solid [&>td]:border-[#232323] last:[&>td]:border-b-0",
+              )}
+            >
+              <td>{index + 1}</td>
+              <td>شکن</td>
+              <td>178.22.122.100</td>
+              <td>25MB/s</td>
+              <td className="text-success">آنلاین</td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>

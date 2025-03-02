@@ -1,8 +1,10 @@
-import { Dispatch, SetStateAction, useState } from "react";
-import { FiPower } from "react-icons/fi";
+import { z } from "zod";
+import { twJoin } from "tailwind-merge";
 import { RiLink } from "react-icons/ri";
-import { twMerge } from 'tailwind-merge';
-import { z } from 'zod';
+import { FiPower } from "react-icons/fi";
+import { Dispatch, FormEvent, SetStateAction, useState } from "react";
+
+import twMerge from "@/lib/tw-merge";
 
 type Props = {
   onChange: Dispatch<SetStateAction<string>>;
@@ -21,15 +23,15 @@ function LinkInput(props: Props) {
   const ensureHttps = (url: string): string => {
     const trimmedUrl = url.trim();
     if (!trimmedUrl) return "";
-    
+
     // If URL has no protocol, add https://
     if (!trimmedUrl.match(/^[a-zA-Z]+:\/\//)) {
       return `https://${trimmedUrl}`;
     }
-    
+
     // Replace http:// with https://
-    if (trimmedUrl.startsWith('http://')) {
-      return trimmedUrl.replace('http://', 'https://');
+    if (trimmedUrl.startsWith("http://")) {
+      return trimmedUrl.replace("http://", "https://");
     }
     return trimmedUrl;
   };
@@ -39,10 +41,17 @@ function LinkInput(props: Props) {
     const trimmedValue = value.trim();
     const validation = urlSchema.safeParse(trimmedValue);
     if (!validation.success && !domainPattern.test(trimmedValue)) {
-      setError("لطفا یک آدرس معتبر وارد کنید (مثال: http://docker.com, https://docker.com, docker.com)");
+      setError(
+        "لطفا یک آدرس معتبر وارد کنید (مثال: http://docker.com, https://docker.com, docker.com)",
+      );
     } else {
       setError(null);
     }
+  };
+
+  const submitHandler = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    onChange(ensureHttps(inputValue));
   };
 
   return (
@@ -52,18 +61,23 @@ function LinkInput(props: Props) {
         میتوانید لینک سایت یا لینک دانلود را برای برسی وارد نمایید.
       </p>
 
-      <div className="mt-5 flex items-stretch gap-3">
+      <form onSubmit={submitHandler} className="mt-5 flex items-stretch gap-3">
         <div className="relative grow">
-          <RiLink size={16} className="absolute right-3.5 top-[13px] text-typo-1" />
+          <RiLink
+            size={16}
+            className="absolute right-3.5 top-[13px] text-typo-1"
+          />
           <input
+            dir="ltr"
             value={inputValue}
             placeholder="... آدرس سایت"
             onChange={(event) => handleInputChange(event.target.value)}
             className={twMerge(
-              'bg-paper-light h-[42px] rounded-[10px] placeholder:text-typo-1 text-sm w-full min-w-0 border border-solid border-icon-border pr-10 pl-2.5 transition-all placeholder:text-right focus:outline focus:outline-2',
-              error ? 'outline outline-2 outline-red-500' : 'outline-transparent'
+              "bg-paper-light h-[42px] rounded-[10px] placeholder:text-typo-1",
+              "text-sm w-full outline-transparent min-w-0 border border-solid",
+              "border-icon-border pr-10 pl-2.5 transition-all placeholder:text-right",
+              !!error && "outline-red-500",
             )}
-            dir="ltr"
           />
           {error && (
             <p className="text-red-500 text-xs mt-1 text-right">{error}</p>
@@ -71,19 +85,19 @@ function LinkInput(props: Props) {
         </div>
 
         <button
-          onClick={() => onChange(ensureHttps(inputValue))}
+          type="submit"
           disabled={!!error || !inputValue.trim()}
-          className={twMerge(
-            'h-[42px] flex items-center gap-2 shrink-0 px-4 rounded-[10px] transition-all',
-            error || !inputValue.trim()
-              ? 'bg-gray-400 cursor-not-allowed'
-              : 'bg-primary text-typo-primary cursor-pointer hover:brightness-110 active:brightness-95'
+          className={twJoin(
+            "h-[42px] flex items-center gap-2 shrink-0 bg-primary",
+            "text-typo-primary px-4 rounded-[10px] cursor-pointer",
+            "hover:brightness-110 active:brightness-95 transition-[filter]",
+            "disabled:grayscale",
           )}
         >
           <span className="text-sm">برسی اتصال</span>
           <FiPower size={20} />
         </button>
-      </div>
+      </form>
     </div>
   );
 }
