@@ -10,7 +10,6 @@ function App() {
     <div className="flex flex-col items-stretch font-body text-typo-0 py-6 px-[75px] h-screen overflow-hidden">
       <AppHeading />
       <LinkInput onChange={setLink} />
-
       <ResultTable link={link} />
     </div>
   );
