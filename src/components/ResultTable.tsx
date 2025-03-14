@@ -2,8 +2,10 @@ import { z } from "zod";
 import { useMemo, useState } from "react";
 import { twJoin } from "tailwind-merge";
 import { RiCloudOffLine } from "react-icons/ri";
-import { AiFillThunderbolt } from "react-icons/ai";
+import { AiFillThunderbolt, AiOutlineLoading } from "react-icons/ai";
 import ScrollBox from "./ScrollBox";
+import { useQuery } from "@tanstack/react-query";
+import dnsList from "../../dns-list.json";
 
 type Props = {
   link: string;
@@ -17,6 +19,23 @@ function ResultTable(props: Props) {
   const [thBgEnabled, setThBgEnabled] = useState(false);
   const safeLink = useMemo(() => validator.safeParse(unsafeLink), [unsafeLink]);
 
+  const data = useQuery({
+    enabled: safeLink.success,
+    refetchInterval: 5 * 1000,
+    queryKey: ["LINK", safeLink.data],
+    queryFn: () => {
+      const promises: Promise<DnsData>[] = [];
+
+      for (const service of dnsList)
+        for (const dns of service.servers)
+          promises.push(
+            window.api.isForbidden(service.name, safeLink.data!, dns),
+          );
+
+      return Promise.all(promises);
+    },
+  });
+
   if (!safeLink.success)
     return (
       <div className="grow flex flex-col items-stretch overflow-auto">
@@ -26,6 +45,20 @@ function ResultTable(props: Props) {
           <p className="text-xs text-typo-2">
             برای نتیجه یک لینک را وارد کنید.
           </p>
+        </div>
+      </div>
+    );
+
+  if (data.isLoading)
+    return (
+      <div className="grow flex flex-col items-stretch overflow-auto">
+        <div className="flex flex-col items-center my-auto">
+          <AiOutlineLoading
+            size={32}
+            className="text-typo-0 mb-3 animate-spin"
+          />
+          <h3 className="text-sm mb-1 font-medium">درحال بررسی</h3>
+          <p className="text-xs text-typo-2">لطفاً شکیبا باشید...</p>
         </div>
       </div>
     );
@@ -60,7 +93,7 @@ function ResultTable(props: Props) {
             </tr>
           </thead>
           <tbody>
-            {new Array(20).fill(null).map((_, index) => (
+            {data.data?.map((data, index) => (
               <tr
                 key={index}
                 className={twJoin(
@@ -69,10 +102,12 @@ function ResultTable(props: Props) {
                 )}
               >
                 <td>{index + 1}</td>
-                <td>شکن</td>
-                <td>178.22.122.100</td>
+                <td>{data.name}</td>
+                <td>{data.server}</td>
                 <td>25MB/s</td>
-                <td className="text-success">آنلاین</td>
+                <td className={data.isOnline ? "text-success" : "text-error"}>
+                  {data.isOnline ? "آنلاین" : "آفلاین"}
+                </td>
               </tr>
             ))}
           </tbody>

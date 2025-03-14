@@ -1,6 +1,7 @@
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { app, BrowserWindow } from "electron";
+import { app, BrowserWindow, ipcMain } from "electron";
+import { isForbidden } from "./utils/resolver";
 
 // import { createRequire } from 'node:module'
 // const require = createRequire(import.meta.url)
@@ -29,6 +30,7 @@ function createWindow() {
   });
 
   win.setMenu(null);
+  win.webContents.openDevTools();
 
   if (VITE_DEV_SERVER_URL) win.loadURL(VITE_DEV_SERVER_URL);
   else win.loadFile(path.join(RENDERER_DIST, "index.html"));
@@ -45,3 +47,7 @@ app.on("activate", () => {
 });
 
 app.whenReady().then(createWindow);
+
+ipcMain.handle("isForbidden", (_, name, url, server) =>
+  isForbidden(name, url, server),
+);

@@ -4,6 +4,7 @@
   --color-paper-light: #ffffff;
   --color-primary: #0dbd5c;
   --color-success: #76be56;
+  --color-error: #f43f5e;
 
   --color-typo-0: #212529;
   --color-typo-1: #48484a;
@@ -19,6 +20,7 @@
     --color-paper-light: #1c1c1e;
     --color-primary: #0dbd5c;
     --color-success: #76be56;
+    --color-error: #f43f5e;
 
     --color-typo-0: #ffffff;
     --color-typo-1: #48484a;
@@ -37,6 +39,7 @@
   --color-paper-light: var(--color-paper-light);
   --color-primary: var(--color-primary);
   --color-success: var(--color-success);
+  --color-error: var(--color-error);
 
   --color-typo-0: var(--color-typo-0);
   --color-typo-1: var(--color-typo-1);
