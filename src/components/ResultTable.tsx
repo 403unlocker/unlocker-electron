@@ -45,7 +45,7 @@ function ResultTable(props: Props) {
           <thead>
             <tr
               className={twJoin(
-                "text-sm text-typo-2 [&>th]:py-3 [&>th]:text-right",
+                "text-sm text-typo-2 [&>th]:py-3 [&>th]:text-center",
                 "[&>th]:font-normal [&>th]:border-b [&>th]:border-solid",
                 "[&>th]:border-[#232323] [&>th]:first:pb-2 [&>th]:sticky",
                 "[&>th]:top-0 z-[1] [&>th]:transition-colors [&>th]:duration-500",
@@ -64,7 +64,7 @@ function ResultTable(props: Props) {
               <tr
                 key={index}
                 className={twJoin(
-                  "text-typo-0 text-sm [&>td]:py-3 [&>td]:border-b",
+                  "text-typo-0 text-sm [&>td]:py-3 [&>td]:border-b [&>td]:text-center",
                   "[&>td]:border-solid [&>td]:border-[#232323] last:[&>td]:border-b-0",
                 )}
               >
