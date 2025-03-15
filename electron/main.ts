@@ -30,7 +30,6 @@ function createWindow() {
   });
 
   win.setMenu(null);
-  win.webContents.openDevTools();
 
   if (VITE_DEV_SERVER_URL) win.loadURL(VITE_DEV_SERVER_URL);
   else win.loadFile(path.join(RENDERER_DIST, "index.html"));
