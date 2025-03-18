@@ -20,6 +20,6 @@ jobs:
 
       - name: Building
         id: build
-        run: yarn build --publish=onTag
+        run: yarn build --mac --win --linux --publish=onTag --config publish.version=${GITHUB_REF#refs/tags/}
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
