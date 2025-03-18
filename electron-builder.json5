@@ -1,9 +1,9 @@
 {
   "$schema": "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
   "asar": true,
-  "productName": "403unlocker-desktop",
+  "productName": "403 Unlocker",
   "appId": "com.github.403unlocker.unlocker-electron",
-  "artifactName": "${productName}-${os}-${arch}-${version}.${ext}",
+  "artifactName": "unlocker-${os}-${arch}-${version}.${ext}",
   "directories": {
     "output": "release"
   },
