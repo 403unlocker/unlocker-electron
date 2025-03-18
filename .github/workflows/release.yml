@@ -1,12 +1,10 @@
 name: Make Release
 on:
   push:
-    branches:
-      - main
     tags:
-      - V*
+      - v*
 jobs:
-  build:
+  Build-And-Release:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
@@ -20,6 +18,6 @@ jobs:
 
       - name: Building
         id: build
-        run: yarn build --mac --win --linux --publish=onTag --config publish.version=${GITHUB_REF#refs/tags/}
+        run: yarn build --mac --win --linux --publish=onTag
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
