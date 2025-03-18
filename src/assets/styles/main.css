@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "./font.css";
 @import "./palette.css";
+@import "./animation.css";
 
 html {
   background: url("../images/world-map-light.png") no-repeat center fixed;

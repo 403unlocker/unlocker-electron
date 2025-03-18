@@ -5,9 +5,6 @@ import { Resolver } from "dns/promises";
 /** in seconds */
 const testTime = 10;
 
-const resolver = new Resolver();
-const defaultServers = resolver.getServers();
-
 /**
  * Measure download speed using the provided dns server.
  * @param dns - This function will make request to the url using provided dns server.
@@ -17,6 +14,7 @@ const defaultServers = resolver.getServers();
 async function getSpeed(dns: string, url: string | URL): Promise<number> {
   let fileSize = 0;
   url = new URL(url);
+  const resolver = new Resolver();
   resolver.setServers([dns]);
 
   try {
@@ -46,8 +44,6 @@ async function getSpeed(dns: string, url: string | URL): Promise<number> {
   } catch (error) {
     console.error("DNS Resolution Error:", error);
     return -1;
-  } finally {
-    resolver.setServers(defaultServers);
   }
 }
 

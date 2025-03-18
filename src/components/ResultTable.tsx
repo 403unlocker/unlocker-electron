@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { twJoin } from "tailwind-merge";
 import { RiCloudOffLine } from "react-icons/ri";
 import { AiFillThunderbolt, AiOutlineLoading } from "react-icons/ai";
@@ -7,19 +7,17 @@ import ScrollBox from "./ScrollBox";
 import { useQuery } from "@tanstack/react-query";
 import dnsList from "../../dns-list.json";
 
-type Props = {
-  link: string;
-};
+type Props = { link: string };
 
+const { api } = window;
 const validator = z.string().url();
 
 function ResultTable(props: Props) {
   const { link: unsafeLink } = props;
 
-  const [thBgEnabled, setThBgEnabled] = useState(false);
   const safeLink = useMemo(() => validator.safeParse(unsafeLink), [unsafeLink]);
 
-  const data = useQuery({
+  const { data, isLoading } = useQuery({
     enabled: safeLink.success,
     refetchInterval: 5 * 1000,
     queryKey: ["LINK", safeLink.data],
@@ -28,13 +26,15 @@ function ResultTable(props: Props) {
 
       for (const service of dnsList)
         for (const dns of service.servers)
-          promises.push(
-            window.api.isForbidden(service.name, safeLink.data!, dns),
-          );
+          promises.push(api.isForbidden(service.name, safeLink.data!, dns));
 
       return Promise.all(promises);
     },
   });
+
+  const copyHandler = (server: string) => {
+    navigator.clipboard.writeText(server);
+  };
 
   if (!safeLink.success)
     return (
@@ -49,7 +49,7 @@ function ResultTable(props: Props) {
       </div>
     );
 
-  if (data.isLoading)
+  if (isLoading)
     return (
       <div className="grow flex flex-col items-stretch overflow-auto">
         <div className="flex flex-col items-center my-auto">
@@ -69,31 +69,33 @@ function ResultTable(props: Props) {
         <AiFillThunderbolt size={14} className="text-primary" />
         <p className="text-typo-0 text-sm">نتایج</p>
       </div>
-      <p className="text-xs font-medium text-typo-2 mb-8">
-        اولین DNS بیشترین سرعت را دارد.
+      <p className="text-xs font-medium text-typo-2 mb-6">
+        با کلیک روی هر دی‌ان‌اس آن را کپی کنید.
       </p>
+      {/* <p className="text-xs font-medium text-typo-2 mb-6"> */}
+      {/*   اولین DNS بیشترین سرعت را دارد. */}
+      {/* </p> */}
 
-      <ScrollBox onScrollYPassed={setThBgEnabled}>
+      <ScrollBox>
         <table className="relative z-0 w-full">
           <thead>
             <tr
               className={twJoin(
                 "text-sm text-typo-2 [&>th]:py-3 [&>th]:text-center",
                 "[&>th]:font-normal [&>th]:border-b [&>th]:border-solid",
-                "[&>th]:border-[#232323] [&>th]:first:pb-2 [&>th]:sticky",
-                "[&>th]:top-0 z-[1] [&>th]:transition-colors [&>th]:duration-500",
-                thBgEnabled && "[&>th]:bg-paper/50 [&>th]:backdrop-blur-md",
+                "[&>th]:border-[#232323] [&>th]:first:pb-2 [&>th]:transition-colors",
+                "[&>th]:duration-500",
               )}
             >
               <th>#</th>
               <th>نام</th>
               <th>دی‌ان‌اس</th>
-              <th>سرعت</th>
+              {/* <th>سرعت</th> */}
               <th>وضعیت</th>
             </tr>
           </thead>
           <tbody>
-            {data.data?.map((data, index) => (
+            {data?.map((data, index) => (
               <tr
                 key={index}
                 className={twJoin(
@@ -103,8 +105,15 @@ function ResultTable(props: Props) {
               >
                 <td>{index + 1}</td>
                 <td>{data.name}</td>
-                <td>{data.server}</td>
-                <td>25MB/s</td>
+                <td>
+                  <button
+                    className="cursor-pointer"
+                    onClick={() => copyHandler(data.server)}
+                  >
+                    {data.server}
+                  </button>
+                </td>
+                {/* <td>25MB/s</td> */}
                 <td className={data.isOnline ? "text-success" : "text-error"}>
                   {data.isOnline ? "آنلاین" : "آفلاین"}
                 </td>

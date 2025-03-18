@@ -1,0 +1,61 @@
+name: Make Release
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - V*
+jobs:
+  build:
+    strategy:
+      matrix:
+        os:
+          - windows-latest
+          - ubuntu-latest
+          - macos-latest
+    runs-on: ${{matrix.os}}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Building
+        id: build
+        run: |
+          npm run build
+          mkdir -p release
+          find dist-release -maxdepth 1 -type f \( \
+          -name "*.deb" -o \
+          -name "*.pacman" -o \
+          -name "*.AppImage" -o \
+          -name "*.exe" -o \
+          -name "*.dmg" \) -exec mv {} release/ \;
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          include-hidden-files: true
+          name: artifacts-${{ matrix.os }}
+          path: release/*
+
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          path: artifacts
+
+      - name: List Downloaded Files
+        run: ls -lhR artifacts
+
+      - name: Create GitHub Release
+        uses: ncipollo/release-action@v1
+        with:
+          artifacts: artifacts/**/*

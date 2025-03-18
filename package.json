@@ -1,8 +1,13 @@
 {
   "name": "unlocker403",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.1.0",
   "type": "module",
+  "author": {
+    "name": "Saman-Safaei-Dev",
+    "url": "https://github.com/Saman-Safaei-Dev",
+    "email": "xsamansafaeix@gmail.com"
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build && electron-builder",

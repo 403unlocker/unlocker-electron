@@ -1,0 +1,27 @@
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.scrollbar[data-state="visible"],
+.scrollbar[data-state="visible"] {
+  animation: fadeIn 300ms ease;
+}
+
+.scrollbar[data-state="hidden"],
+.scrollbar[data-state="hidden"] {
+  animation: fadeOut 300ms ease;
+}

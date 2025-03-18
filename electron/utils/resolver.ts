@@ -39,7 +39,7 @@ async function isForbidden(
       request.end();
     });
   } catch (error) {
-    console.error("DNS Resolution Error:", error);
+    console.error(`${server} - DNS Resolution Error:`, error);
     return { name, server, isOnline: false };
   }
 }

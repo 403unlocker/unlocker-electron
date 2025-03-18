@@ -1,42 +1,42 @@
 {
   "$schema": "https://raw.githubusercontent.com/electron-userland/electron-builder/master/packages/app-builder-lib/scheme.json",
-  "appId": "ir.403unlocker.bemula",
   "asar": true,
   "productName": "403unlocker-desktop",
+  "appId": "com.github.403unlocker.unlocker-electron",
+  "artifactName": "${productName}-${os}-${arch}-${version}.${ext}",
   "directories": {
-    "output": "release/${version}"
+    "output": "dist-release"
   },
   "files": [
     "dist",
     "dist-electron"
   ],
   "mac": {
-    "target": [
-      "dmg"
-    ],
-    "artifactName": "${productName}-Mac-${version}-Installer.${ext}"
+    "icon": "public/icon.png",
+    "target": ["dmg"],
   },
   "win": {
+    "icon": "public/icon.ico",
     "target": [
       {
         "target": "nsis",
-        "arch": [
-          "x64"
-        ]
+        "arch": ["x64"]
       }
     ],
-    "artifactName": "${productName}-Windows-${version}-Setup.${ext}"
   },
   "nsis": {
     "oneClick": false,
-    "perMachine": false,
+    "perMachine": true,
     "allowToChangeInstallationDirectory": true,
     "deleteAppDataOnUninstall": true
   },
   "linux": {
+    "icon": "public/icon.png",
     "target": [
-      "AppImage"
+      "pacman",
+      "AppImage",
+      "deb",
     ],
-    "artifactName": "${productName}-Linux-${version}.${ext}"
+    "category": "Utilities",
   }
 }

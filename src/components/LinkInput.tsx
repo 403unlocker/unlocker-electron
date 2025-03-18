@@ -23,7 +23,7 @@ function LinkInput(props: Props) {
     <div className="mt-12">
       <h2 className="text-sm font-medium text-typo-0 mb-1">بررسی لینک</h2>
       <p className="text-xs text-typo-2">
-        میتوانید لینک سایت یا لینک دانلود را برای برسی وارد نمایید.
+        میتوانید لینک سایت یا لینک دانلود را برای بررسی وارد نمایید.
       </p>
 
       <form onSubmit={submitHandler} className="mt-5 flex items-stretch gap-3">
