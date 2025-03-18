@@ -7,13 +7,7 @@ on:
       - V*
 jobs:
   build:
-    strategy:
-      matrix:
-        os:
-          - windows-latest
-          - ubuntu-latest
-          - macos-latest
-    runs-on: ${{matrix.os}}
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
 
@@ -21,50 +15,11 @@ jobs:
         with:
           node-version: 22
 
-      - name: Install system dependencies for electron builder
-        if: matrix.os == 'ubuntu-latest'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y libarchive-tools ruby ruby-dev rubygems build-essential
-          sudo gem install --no-document fpm
-
       - name: Install dependencies
         run: yarn install --frozen-lockfile
 
       - name: Building
         id: build
-        run: |
-          yarn build
-          mkdir -p release
-          find dist-release -maxdepth 1 -type f \( \
-          -name "*.deb" -o \
-          -name "*.pacman" -o \
-          -name "*.AppImage" -o \
-          -name "*.exe" -o \
-          -name "*.dmg" \) -exec mv {} release/ \;
-
-      - name: Upload Artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          include-hidden-files: true
-          name: artifacts-${{ matrix.os }}
-          path: release/*
-
-  release:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/download-artifact@v4
-        with:
-          path: artifacts
-
-      - name: List Downloaded Files
-        run: ls -lhR artifacts
-
-      - name: Create GitHub Release
-        if: startsWith(github.ref, 'refs/tags/V')
-        uses: ncipollo/release-action@v1
-        with:
-          artifacts: artifacts/**/*
+        run: yarn build --publish=onTag
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
