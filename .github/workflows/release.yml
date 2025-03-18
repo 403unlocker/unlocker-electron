@@ -22,12 +22,12 @@ jobs:
           node-version: 22
 
       - name: Install dependencies
-        run: npm ci
+        run: yarn install --frozen-lockfile
 
       - name: Building
         id: build
         run: |
-          npm run build
+          yarn build
           mkdir -p release
           find dist-release -maxdepth 1 -type f \( \
           -name "*.deb" -o \
