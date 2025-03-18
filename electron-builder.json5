@@ -3,7 +3,7 @@
   "asar": true,
   "productName": "403 Unlocker",
   "appId": "com.github.403unlocker.unlocker-electron",
-  "artifactName": "unlocker-${os}-${arch}-${version}.${ext}",
+  "artifactName": "${productName}-${os}-${arch}-${version}.${ext}",
   "directories": {
     "output": "release"
   },
@@ -28,7 +28,7 @@
     "deleteAppDataOnUninstall": true
   },
   "linux": {
-    "icon": "public/icon.png",
+    "icon": "public/icon.icns",
     "target": [
       {
         "target": "pacman",
