@@ -32,15 +32,15 @@
     "target": [
       {
         "target": "pacman",
-        "arch": ["x64", "ia32"]
+        "arch": ["x64"]
       },
       {
         "target": "AppImage",
-        "arch": ["x64", "ia32"]
+        "arch": ["x64"]
       },
       {
         "target": "deb",
-        "arch": ["x64", "ia32"]
+        "arch": ["x64"]
       }
     ],
     "category": "Utilities"
