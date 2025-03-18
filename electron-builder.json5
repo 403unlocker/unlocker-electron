@@ -5,15 +5,12 @@
   "appId": "com.github.403unlocker.unlocker-electron",
   "artifactName": "${productName}-${os}-${arch}-${version}.${ext}",
   "directories": {
-    "output": "dist-release"
+    "output": "release"
   },
-  "files": [
-    "dist",
-    "dist-electron"
-  ],
+  "files": ["dist", "dist-electron"],
   "mac": {
     "icon": "public/icon.png",
-    "target": ["dmg"],
+    "target": ["dmg"]
   },
   "win": {
     "icon": "public/icon.ico",
@@ -22,7 +19,7 @@
         "target": "nsis",
         "arch": ["x64"]
       }
-    ],
+    ]
   },
   "nsis": {
     "oneClick": false,
@@ -33,10 +30,19 @@
   "linux": {
     "icon": "public/icon.png",
     "target": [
-      "pacman",
-      "AppImage",
-      "deb",
+      {
+        "target": "pacman",
+        "arch": ["x64", "ia32"]
+      },
+      {
+        "target": "AppImage",
+        "arch": ["x64", "ia32"]
+      },
+      {
+        "target": "deb",
+        "arch": ["x64", "ia32"]
+      }
     ],
-    "category": "Utilities",
+    "category": "Utilities"
   }
 }
