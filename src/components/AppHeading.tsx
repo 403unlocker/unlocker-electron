@@ -11,10 +11,10 @@ function AppHeading() {
       <img src={LogoSrc} alt="logo" />
       <h1 className="font-black text-base mt-1">۴۰۳،آنلاکر</h1>
 
-      <a href="#" className={`mr-auto ${BUTTON_CS}`}>
+      <a href="https://x.com/403unlocker" target="_blank" className={`mr-auto ${BUTTON_CS}`}>
         <FaXTwitter size={14} />
       </a>
-      <a href="#" className={`mr-1 ${BUTTON_CS}`}>
+      <a href="https://github.com/403unlocker/unlocker-electron" target="_blank" className={`mr-1 ${BUTTON_CS}`}>
         <FaGithub size={14} />
       </a>
     </header>
