@@ -1,10 +1,10 @@
+import os from "node:os";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { app, BrowserWindow, ipcMain } from "electron";
+import { app, BrowserWindow, ipcMain, shell } from "electron";
 import { isForbidden } from "./utils/resolver";
 
-// import { createRequire } from 'node:module'
-// const require = createRequire(import.meta.url)
+if (process.env.APPIMAGE) app.setName("403 Unlocker Desktop");
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -21,11 +21,16 @@ process.env.VITE_PUBLIC = VITE_DEV_SERVER_URL
 let win: BrowserWindow | null;
 
 function createWindow() {
+  const iconPath = path.join(
+    process.env.VITE_PUBLIC,
+    os.platform() === "win32" ? "icon.ico" : "icon64.png",
+  );
+
   win = new BrowserWindow({
     width: 800,
     height: 600,
+    icon: iconPath,
     resizable: false,
-    icon: path.join(process.env.VITE_PUBLIC, "electron-vite.svg"),
     webPreferences: { preload: path.join(__dirname, "preload.mjs") },
   });
 
@@ -50,3 +55,7 @@ app.whenReady().then(createWindow);
 ipcMain.handle("isForbidden", (_, name, url, server) =>
   isForbidden(name, url, server),
 );
+
+ipcMain.handle("openExternalLink", (_, url) => {
+  shell.openExternal(url);
+});
