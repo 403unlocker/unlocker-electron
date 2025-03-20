@@ -15,6 +15,7 @@ declare namespace NodeJS {
 
 interface Window {
   api: {
+    openExternalLink(link: string): void;
     isForbidden(name: string, url: string, server: string): Promise<DnsData>;
   };
 }
