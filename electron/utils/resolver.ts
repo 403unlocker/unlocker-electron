@@ -11,7 +11,7 @@ import type { IncomingMessage } from "http";
 async function isForbidden(
   name: string,
   url: string | URL,
-  server: string,
+  server: string
 ): Promise<DnsData> {
   const resolver = new Resolver();
   resolver.setServers([server]);
@@ -31,8 +31,15 @@ async function isForbidden(
         headers: { Host: url.hostname },
       };
 
-      const responseHandler = (res: IncomingMessage) =>
-        resolve({ name, server, isOnline: res.statusCode !== 403 });
+      const responseHandler = (res: IncomingMessage) => {
+        const status = res.statusCode ?? -1;
+
+        resolve({
+          name,
+          server,
+          isOnline: 200 <= status && status < 300,
+        });
+      };
 
       const request = https.request(requestOptions, responseHandler);
       request.on("error", () => resolve({ name, server, isOnline: false }));
