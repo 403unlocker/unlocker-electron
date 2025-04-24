@@ -1,30 +1,42 @@
-# React + TypeScript + Vite
+# 🔓 403 Unlocker GUI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+403 Unlocker GUI is a desktop app built with Electron, Vite, and React that helps you check whether a domain is filtered (blocked) and tests which DNS providers can unlock access to it.
 
-Currently, two official plugins are available:
+### ✨ Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Detect if a domain is blocked (HTTP 403 or DNS filtered)
+- Automatically test multiple DNS servers to find which ones can resolve the blocked domain
+- Clean and responsive UI built with React
+- Super fast performance thanks to Vite + Electron
 
-## Expanding the ESLint configuration
+### 🧰 Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- React
+- Vite
+- Electron
+- Tailwindcss
 
-- Configure the top-level `parserOptions` property like this:
+### 🚀 How It Works
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
+1. Enter a domain (e.g., hub.docker.com)
+2. The app checks if it's blocked or filtered by your current network
+3. It tests various DNS servers to see which ones can resolve the domain successfully
+4. Displays the working DNS servers that can bypass the block
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+### 🧪 Use Cases
+
+- Quickly identify DNS-level restrictions
+- Discover which DNS providers can bypass filtering
+- Useful for devs, researchers, and internet freedom enthusiasts
+
+### 📦 Downloads
+
+- 🪟 Windows (.exe): [Download here](https://github.com/403unlocker/unlocker-electron/releases/download/v0.1.10/403-Unlocker-win-x64-0.1.10.exe)
+- 🍎 macOS (.dmg): [Download here](https://github.com/403unlocker/unlocker-electron/releases/download/v0.1.10/403-Unlocker-mac-arm64-0.1.10.dmg)
+- 🐧 Linux (.AppImage): [Download here](https://github.com/403unlocker/unlocker-electron/releases/download/v0.1.10/403-Unlocker-linux-x86_64-0.1.10.AppImage)
+
+### 📝 License
+
+This project is licensed under the zlib License.
+<br>
+See the [LICENSE](./LICENSE) file for details.
