@@ -32,6 +32,17 @@ function ResultTable(props: Props) {
     },
   });
 
+  // Sort data to display online records first
+  const sortedData = useMemo(() => {
+    if (!data) return [];
+    return [...data].sort((a, b) => {
+      // Sort by online status (true = online comes first)
+      if (a.isOnline && !b.isOnline) return -1;
+      if (!a.isOnline && b.isOnline) return 1;
+      return 0;
+    });
+  }, [data]);
+
   const copyHandler = (server: string) => {
     navigator.clipboard.writeText(server);
   };
@@ -95,7 +106,7 @@ function ResultTable(props: Props) {
             </tr>
           </thead>
           <tbody>
-            {data?.map((data, index) => (
+            {sortedData.map((data, index) => (
               <tr
                 key={index}
                 className={twJoin(
